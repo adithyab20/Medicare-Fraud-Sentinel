@@ -1,0 +1,13 @@
+Medicare-Fraud-Sentinel/
+├── data/               # DO NOT PUSH RAW DATA (use .gitignore)
+│   ├── raw/            # Original Medicare CSVs
+│   └── processed/      # Cleaned Parquet or CSV files
+├── notebooks/          # EDA and Model Prototyping (.ipynb)
+├── src/                # Production Scripts (.py)
+│   ├── ingestion.py    # Code to move data to AWS/S3
+│   ├── transformation.py # Snowflake/SQL logic
+│   └── modeling.py     # ML Anomaly Detection
+├── config/             # Configuration files (avoid secrets here)
+├── .gitignore          # Files to ignore (data, .env, etc.)
+├── README.md           # The story of your project
+└── requirements.txt    # Python dependencies
