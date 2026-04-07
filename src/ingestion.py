@@ -1,39 +1,23 @@
 import pandas as pd
-import requests
 import os
 
-def download_medicare_sample(limit=1000):
-    """
-    Downloads a sample of Medicare Physician data from CMS.gov
-    """
-    # CMS Data API URL for Physician & Other Practitioners (2022/2023 data)
-    api_url = "https://data.cms.gov/provider-data/api/1.0/dataset/8672-03e5/download"
+def load_manual_data():
+    # Use forward slashes for Windows compatibility in Python
+    file_path = 'data/raw/medicare_advantage_data.xlsx'
     
-    print(f"--- Starting download from CMS ---")
-    
-    # In a real scenario, we'd stream this. For a sample, we use pandas.
-    # Note: CMS links often trigger a direct CSV download
-    try:
-        # Saving locally to our 'data/raw' folder
-        output_path = 'data/raw/medicare_sample.csv'
+    if os.path.exists(file_path):
+        print(f"✅ Found manual download at {file_path}")
         
-        # Create directory if it doesn't exist
-        os.makedirs('data/raw', exist_ok=True)
-        
-        # Download the file
-        response = requests.get(api_url)
-        with open(output_path, 'wb') as f:
-            f.write(response.content)
-            
-        print(f"--- Success! Data saved to {output_path} ---")
-        
-        # Show a preview
-        df = pd.read_csv(output_path, nrows=5)
-        print("\nData Preview:")
-        print(df.head())
-        
-    except Exception as e:
-        print(f"Error: {e}")
+        try:
+            # Use read_excel for .xlsx files
+            df = pd.read_excel(file_path, nrows=5) 
+            print("\n--- Data Sample Preview ---")
+            print(df.head())
+            print("\n🚀 Ingestion Phase Complete!")
+        except Exception as e:
+            print(f"❌ Error reading the file: {e}")
+    else:
+        print(f"⚠️ File not found at {file_path}")
 
 if __name__ == "__main__":
-    download_medicare_sample()
+    load_manual_data()
